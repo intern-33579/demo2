@@ -22,7 +22,7 @@ function generateOTP() {
   }
   return OTP;
 }
-app.post("/otp", async (req, res) => {
+app.get("/otp", async (req, res) => {
   let email = "email@gmail.com";
   let otp = generateOTP();
   let docRef = db.collection("users").where("email", "==", email).get();
@@ -37,9 +37,9 @@ app.post("/otp", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
-  const email = req.body.email;
-  const otp = req.body.otp;
+app.get("/login/:email/:id", async (req, res) => {
+  const email = req.params.email;
+  const otp = req.params.otp;
 
   let docRef = (await db.collection("users").where("email", "==", email)).get();
   console.log((await docRef).size);
@@ -58,8 +58,8 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/signup", async (req, res) => {
-  const email = req.body.email;
+app.get("/signup/:email", async (req, res) => {
+  const email = req.params.email;
   const otp = "";
   let docRef = (await db.collection("users").where("email", "==", email)).get();
   if ((await docRef).empty) {
