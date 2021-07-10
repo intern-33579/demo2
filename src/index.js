@@ -22,7 +22,7 @@ function generateOTP() {
   }
   return OTP;
 }
-app.post("/otp", cors, async (req, res) => {
+app.post("/otp", async (req, res) => {
   let email = req.body.email;
   let otp = generateOTP();
   let docRef = (await db.collection("users").where("email", "==", email)).get();
