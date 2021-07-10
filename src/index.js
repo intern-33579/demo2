@@ -70,7 +70,9 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// app.get('/signu')
+app.get("/test", (req, res) => {
+  res.send("ok");
+});
 
 app.use(cors);
 
