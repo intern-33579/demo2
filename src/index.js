@@ -11,6 +11,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+
 function generateOTP() {
   var digits = "0123456789";
   let OTP = "";
