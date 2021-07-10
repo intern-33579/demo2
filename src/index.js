@@ -74,7 +74,7 @@ app.get("/test", (req, res) => {
   res.send("ok");
 });
 
-app.use(cors);
+app.use(cors());
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`App listening at http://localhost`);
