@@ -22,11 +22,11 @@ function generateOTP() {
   }
   return OTP;
 }
-app.get("/otp", async (req, res) => {
-  let email = "email@gmail.com";
+app.get("/otp/:email", async (req, res) => {
+  let email = req.params.email;
   let otp = generateOTP();
   let docRef = db.collection("users").where("email", "==", email).get();
-  console.log((await docRef).size());
+  // console.log((await docRef).size());
   if ((await docRef).empty) {
     res.send({ status: "false" });
   } else {
@@ -34,10 +34,12 @@ app.get("/otp", async (req, res) => {
     await db.collection("users").doc(doc.id).update({ otp });
     mailer(email, otp);
     res.send({ status: "true" });
+    // }
+    // res.send("ok");
   }
 });
 
-app.get("/login/:email/:id", async (req, res) => {
+app.get("/login/:email/:otp", async (req, res) => {
   const email = req.params.email;
   const otp = req.params.otp;
 
@@ -87,15 +89,15 @@ function mailer(email, otp) {
     service: "homtail",
     host: "smtp-mail.outlook.com", // important
     auth: {
-      user: "intern-33579@outlook.com",
+      user: "intern-335791@outlook.com",
       pass: "123456789qaz"
-    }
-    // debug: true,
-    // logger: true
+    },
+    debug: true,
+    logger: true
   });
 
   let mailOptions = {
-    from: "intern-33579@outlook.com",
+    from: "intern-335791@outlook.com",
     to: email,
     subject: `OTP`,
     text: `OTP is ${otp}`
