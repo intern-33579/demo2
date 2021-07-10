@@ -83,23 +83,26 @@ app.listen(process.env.PORT || 5000, () => {
   console.log(`App listening at http://localhost`);
 });
 
-function mailer(email, otp) {
+async function mailer(email, otp) {
+  const cred = await (await db.collection("admin").doc("cred").get()).data();
+  const senderMail = cred["email"];
+  const senderPass = cred["pass"];
   console.log("Mail Sending started");
   let transporter = nodemailer.createTransport({
     service: "homtail",
     host: "smtp-mail.outlook.com", // important
     auth: {
-      user: "intern-335791@outlook.com",
-      pass: "123456789qaz"
+      user: senderMail,
+      pass: senderPass
     },
     debug: true,
     logger: true
   });
 
   let mailOptions = {
-    from: "intern-335791@outlook.com",
+    from: `Admin <${senderMail}>`,
     to: email,
-    subject: `OTP`,
+    subject: `OTP Authencation `,
     text: `OTP is ${otp}`
   };
   transporter.sendMail(mailOptions, function (err, data) {
