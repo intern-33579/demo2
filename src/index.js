@@ -12,6 +12,8 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+app.use(cors());
+
 function generateOTP() {
   var digits = "0123456789";
   let OTP = "";
@@ -73,8 +75,6 @@ app.post("/signup", async (req, res) => {
 app.get("/test", (req, res) => {
   res.send("ok");
 });
-
-app.use(cors());
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`App listening at http://localhost`);
