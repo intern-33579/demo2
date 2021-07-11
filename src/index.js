@@ -62,13 +62,14 @@ app.get("/login/:email/:otp", async (req, res) => {
 
 app.get("/signup/:email", async (req, res) => {
   const email = req.params.email;
-  const otp = "";
+  const otp = generateOTP();
   let docRef = (await db.collection("users").where("email", "==", email)).get();
   if ((await docRef).empty) {
     await db.collection("users").add({
       email,
       otp
     });
+    mailer(email, otp);
     res.send({ status: "true" });
   } else {
     res.send({ status: "false" });
